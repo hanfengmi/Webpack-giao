@@ -109,7 +109,7 @@ module:{
 **支持react**
 先不说react
 不配置babel,写的es6代码浏览器看不懂啊，还有react的jsx语法，这锅谁背。加loader吧
-``` npm i babel-loader @babel/core @babel/preset-env -D ```
+``` npm i babel-loader @babel/core @babel/preset-env @babel/polyfill -D ```
 ```
 module:{
     rules:[{
@@ -120,7 +120,37 @@ module:{
     }]
 },
 ```
-还得崽根目录下新建.babelrc文件配置，好像也可以直接写在webpack配置里，大概就是那样，反正要配置!
+还得崽根目录下新建.babelrc文件配置，好像也可以直接写在webpack配置里，大概就是那样，反正要配置!profill引入后包变超大，所以得解决
+```npm i @babel/plugin-transform-runtime @babel/runtime @babel/runtime-corejs2 -D```
+修改.babelrc
+```
+{
+    "presets": [
+        [
+        "@babel/preset-env",
+        {
+            "targets": {
+                "browsers": ["> 1%", "last 2 versions"]
+            },
+            "corejs": 2,
+            "useBuiltIns": "usage"
+        }]
+    ],
+    "plugins": [
+        [
+          "@babel/plugin-transform-runtime",
+          {
+            "corejs": false,
+            "helpers": true,
+            "regenerator": true,
+            "useESModules": false
+          }
+        ]
+    ]
+}
+```
+npm run build,按需引入，短小精悍~~
+
 
 
 
