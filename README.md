@@ -132,7 +132,7 @@ module:{
             "targets": {
                 "browsers": ["> 1%", "last 2 versions"]
             },
-            "corejs": 2,
+            "corejs": 3,
             "useBuiltIns": "usage"
         }]
     ],
@@ -150,6 +150,50 @@ module:{
 }
 ```
 npm run build,按需引入，短小精悍~~
+
+**引入react**
+```
+    npm install react react-dom -S
+    npm install @babel/preset-react -D 
+```
+添加react 入口文件 -> src/app.js
+```
+
+import React, { Component } from 'react'
+import ReactDom from 'react-dom'
+
+class App extends Component {
+    render(){
+        return (
+            <div>1232123</div>
+        )
+    }
+}
+
+ReactDom.render(<App />,document.getElementById('myPro'))
+```
+同时，在public/index.html中添加```<div id="myPro"></div>```元素
+修改配置文件.balbelrc
+
+```
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "targets": {
+                    "browsers": ["> 1%", "last 2 versions"]
+                },
+                "corejs": 3,
+                "useBuiltIns": "usage"
+            }
+        ],
+    ++  "@babel/preset-react" 
+    ],
+```
+```npm run start```应该能看到页面了，看不到就带上眼镜再看看。
+
+**至此，一个简单的react应用就构建好了**
+> 当然,只有这样的是远远不够的，我知道的后续还需要添加less等css预处理器,autoprefixer自动前缀,resolve 配置,react-router,redux等等
 
 
 

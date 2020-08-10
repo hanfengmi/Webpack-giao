@@ -1,8 +1,12 @@
 
-console.log('又来一边啊,didi,adssad')
+import React, { Component } from 'react'
 
-const a = [1,2,3]
+class Index extends Component {
+    render(){
+        return (
+            <div>我是首页</div>
+        )
+    }
+}
 
-const b = a.map((e)=>e*4)
-
-console.log(a,b)
+export default Index;

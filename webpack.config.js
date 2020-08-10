@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports={
-    entry:'./src/index.js',
+    entry:'./src/app.js',
     output:{
         path:path.join(__dirname,'dingst'),
         filename:'[name].[hash].js'
@@ -20,6 +20,10 @@ module.exports={
                 use: [
                     {
                         loader: 'file-loader',
+                        options:{
+                            name:'[path][name].[ext]',
+                            limit: 1024 * 5,
+                        }
                     },
                 ],
             },
