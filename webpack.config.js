@@ -12,7 +12,39 @@ module.exports={
         rules:[
             {
                 test:/\.css$/,
-                use:['style-loader','css-loader'],
+                use:['style-loader',{
+                    loader:'css-loader',
+                    options: {
+                        modules: {
+                            localIdentName: '[local]-[name]-[hash:base64:5]'
+                        },
+                      }
+                },'postcss-loader'],
+                exclude: /node_modules/
+            },
+            {
+                test:/\.less$/,
+                use:['style-loader',{
+                    loader:'css-loader',
+                    options: {
+                        modules: {
+                            localIdentName: '[local]-[name]-[hash:base64:5]'
+                        },
+                      }
+                },'postcss-loader','less-loader'],
+                exclude: /node_modules/
+            },
+            {
+                test:/\.scss$/,
+                use:['style-loader',{
+                    loader:'css-loader',
+                    options: {
+                        modules: {
+                            localIdentName: '[local]-[name]-[hash:base64:5]'
+                        // localIdentName: '[path][name]__[local]--[hash:base64:5]'
+                        },
+                      }
+                },'postcss-loader','sass-loader'],
                 exclude: /node_modules/
             },
             {
@@ -22,7 +54,8 @@ module.exports={
                         loader: 'file-loader',
                         options:{
                             name:'[path][name].[ext]',
-                            limit: 1024 * 5,
+                            esModule: false,  //避免 <img src=[Module Object] />
+                            limit: 1024 * 10,
                         }
                     },
                 ],

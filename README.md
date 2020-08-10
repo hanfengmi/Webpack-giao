@@ -196,6 +196,80 @@ ReactDom.render(<App />,document.getElementById('myPro'))
 > 当然,只有这样的是远远不够的，我知道的后续还需要添加less等css预处理器,autoprefixer自动前缀,resolve 配置,react-router,redux等等
 
 
+## 2020-08-10
+> 线上看了一下，我写的md文档真尸米，难受，写完在美化吧
+
+**后续优化：**
+- ~~css预处理器~~ (**完成，有小坑**)
+- ~~autoprefixer自动前缀~~ (**完成**)
+- resolve快捷配置
+- 压缩 提取 CSS
+- 代码规范
+- DLL优化
+- 开发、打包配置拆分
+- react-router
+- redux
+看缘分添加吧，今天争取加两条，啊~~西巴。
+
+### css预处理器+模块化+自动前缀
+
+```
+npm install autoprefixer postcss-loader less-loader node-sass sass sass-loader -D
+
+```
+修改webpack.config.js
+```
+{
+                test:/\.css$/,
+                use:['style-loader',{
+                    loader:'css-loader',
+                    options: {
+                        modules: {
+                            localIdentName: '[local]-[name]-[hash:base64:5]'
+                        },
+                      }
+                },'postcss-loader'],
+                exclude: /node_modules/
+            },
+            {
+                test:/\.less$/,
+                use:['style-loader',{
+                    loader:'css-loader',
+                    options: {
+                        modules: {
+                            localIdentName: '[local]-[name]-[hash:base64:5]'
+                        },
+                      }
+                },'postcss-loader','less-loader'],
+                exclude: /node_modules/
+            },
+            {
+                test:/\.scss$/,
+                use:['style-loader',{
+                    loader:'css-loader',
+                    options: {
+                        modules: {
+                            localIdentName: '[local]-[name]-[hash:base64:5]'
+                        // localIdentName: '[path][name]__[local]--[hash:base64:5]'
+                        },
+                      }
+                },'postcss-loader','sass-loader'],
+                exclude: /node_modules/
+            },
+```
+之后考虑复用。
+> 有个坑，之前没有开启cssmodule模式，使用import styles from './index.less'运行,代码中并没有添加class，原来是要配置开启module,然后老版cssmodule直接在css-loader?module...这么写，新版cssloader需要分开写，详情见上述代码，完毕吼收工。
+
+同时增加postcss.config.js
+```
+module.exports = {
+    plugins: [require('autoprefixer')({overrideBrowserslist: ['> 0.15% in CN']})],
+};
+```
+开启自动添加样式前缀
+
+
+
 
 
 

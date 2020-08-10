@@ -1,14 +1,10 @@
-
 import React, { Component } from 'react'
-import Header from '../component/Header'
+import styles from './index.less'
 
 class Index extends Component {
     render(){
         return (
-            <div>
-                <Header />
-                我是首页
-            </div>
+            <div className={styles.header}>我是头部</div>
         )
     }
 }
