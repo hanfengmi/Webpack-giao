@@ -1,7 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 module.exports={
     entry:'./src/app.js',
     output:{
@@ -12,7 +13,7 @@ module.exports={
         rules:[
             {
                 test:/\.css$/,
-                use:['style-loader',{
+                use:[MiniCssExtractPlugin.loader,{
                     loader:'css-loader',
                     options: {
                         modules: {
@@ -24,7 +25,7 @@ module.exports={
             },
             {
                 test:/\.less$/,
-                use:['style-loader',{
+                use:[MiniCssExtractPlugin.loader,{
                     loader:'css-loader',
                     options: {
                         modules: {
@@ -36,7 +37,7 @@ module.exports={
             },
             {
                 test:/\.scss$/,
-                use:['style-loader',{
+                use:[MiniCssExtractPlugin.loader,{
                     loader:'css-loader',
                     options: {
                         modules: {
@@ -74,12 +75,19 @@ module.exports={
               collapseWhitespace: true // 压缩
             }
         }),
-        new CleanWebpackPlugin(),
+        new MiniCssExtractPlugin({
+            filename: '[name]_[hash:5].css',
+            chunkFilename: '[id]_[hash:5].css',
+            disable: false, //是否禁用此插件
+            allChunks: true,
+        })
     ],
-    devServer:{
-        port:'9011',
-        host:'localhost',
-        overlay:true,
-        compress:true// 服务器返回启动gzip压缩
+    resolve:{
+        extensions: ['.js', '.jsx', '.scss', '.less', '.css', '.json'],
+        alias: {
+            '@': path.resolve('./src'),
+            '@assets': path.resolve('./public/assets'),
+            '@component': path.resolve('./component')
+        }
     }
 }
