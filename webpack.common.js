@@ -49,14 +49,15 @@ module.exports={
                 exclude: /node_modules/
             },
             {
-                test: /\.(png|jpg|gif)$/,
+                test: /\.(png|jpg|jpeg|gif)$/,
                 use: [
                     {
-                        loader: 'file-loader',
+                        loader: 'url-loader',
                         options:{
                             name:'[path][name].[ext]',
                             esModule: false,  //避免 <img src=[Module Object] />
                             limit: 1024 * 10,
+                            fallback: 'file-loader',
                         }
                     },
                 ],
